@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fach and Note Form</title>
+</head>
+<body>
+
+<h2>Fach und erzielte Note hinzuf&uuml;gen bitte</h2>
+
+<form action="http://localhost:8080/submit/fach" method="get">
+    <label for="fach">Fach:</label>
+    <input type="text" id="fach" name="fach" required>
+
+    <br>
+
+    <label for="note">Note:</label>
+    <input type="text" id="note" name="note" required>
+
+    <br>
+
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>

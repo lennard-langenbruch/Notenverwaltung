@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F&auml;cher</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        hr {
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+        }
+
+        button#refreshButton {
+            background-color: #4caf50;
+        }
+
+        button[style="background-color: red;"] {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <nav>
+            <a href="#">Module</a>
+            <a href="abschlussarbeit.html" >Abschlussarbeit</a>
+            <a a href="kolloqium.html" target="_blank">Kolloqium</a>
+        </nav>
+
+        <hr>
+
+        <h2>Liste deiner F&auml;cher</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Semester</th>
+                    <th>Fach</th>
+                    <th>Versuch 1</th>
+                    <th>Versuch 2</th>
+                    <th>Versuch 3</th>
+                    <th>Bestanden</th>
+                    <th>Bearbeiten</th>
+                    <th>L&ouml;schen</th>
+                </tr>
+            </thead>
+            <tbody id="dataBody">
+                <!-- ... -->
+            </tbody>
+        </table>
+
+        <br>
+
+        <button><a href="create_fach.html">Fach hinzufügen</a></button>
+    </div>
+
+    <script>
+
+        /*Lösch einträge im Backend und reloaded index.html -> initial fetch -> aktualisiert*/
+        function deleteData(id) {
+            fetch('http://localhost:8080/delete/fach/'+ id, {
+                method: "GET",
+                mode: "cors",
+                headers: {}
+            }).then(data => {
+            console.log(data);
+            location.reload();
+        })
+        .catch(error => console.error('Error deleting data:', error));
+        }
+    
+
+        /*Zeigt JSON daten in HTML tabelle*/
+        function fetchData() {
+            fetch('http://localhost:8080/fetch/fach', {
+                method: "GET",
+                mode: "cors",
+                headers: {}
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const dataBody = document.getElementById('dataBody');
+                    dataBody.innerHTML = '';
+                    data.forEach(fach => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${fach.semester}</td>
+                            <td>${fach.fachname}</td>
+                            <td>${fach.note1}</td>
+                            <td>${fach.note2}</td>
+                            <td>${fach.note3}</td>
+                            <td>${fach.bestanden}</td>
+                            <td><button>✏️</button></td>
+                            <td><button onClick="deleteData(${fach.id})">🗑️</button></td>
+                        `;
+                        dataBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        // initial load
+        fetchData();
+    </script>
+
+</body>
+
+</html>
