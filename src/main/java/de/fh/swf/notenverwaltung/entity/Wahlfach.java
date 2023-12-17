@@ -8,8 +8,9 @@ import jakarta.persistence.Id;
 
 public class Wahlfach extends Fach {
 	
-	public Wahlfach(String name, Float note) {
-		super(name, note);
+	public Wahlfach() {
+		super();
+		// super(name, note);
 	}
 	
 	@Id

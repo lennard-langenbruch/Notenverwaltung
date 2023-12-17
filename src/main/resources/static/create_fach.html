@@ -60,11 +60,20 @@
     <form action="http://localhost:8080/create/fach" method="get">
         <h2>Fach und erzielte Note hinzuf&uuml;gen bitte</h2>
 
+        <label for="note">Semester:</label>
+        <input type="text" id="semester" name="semester" required>
+
         <label for="fach">Fach:</label>
         <input type="text" id="fach" name="fach" required>
 
-        <label for="note">Note:</label>
-        <input type="text" id="note" name="note" required>
+        <label for="note">Note 1:</label>
+        <input type="text" id="note1" name="note1">
+
+        <label for="note">Note 2:</label>
+        <input type="text" id="note2" name="note2">
+
+        <label for="note">Note 3:</label>
+        <input type="text" id="note3" name="note3">
 
         <button type="submit">Submit</button>
     </form>

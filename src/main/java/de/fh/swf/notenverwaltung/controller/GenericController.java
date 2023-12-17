@@ -39,22 +39,63 @@ public class GenericController {
 
 	@GetMapping("/create/fach")
 	public String createFach(
-			@RequestParam("fach") String name, 
-			@RequestParam("note") String note) {
+			@RequestParam("semester") String semester,
+			@RequestParam("fach") String name,
+			@RequestParam("note1") String note1,
+			@RequestParam("note2") String note2,
+			@RequestParam("note3") String note3) {
+		
+		/*zweistellige fließkommazahl*/
+		String regex = "^[0-9]\\.[0-9]";
+
+		/*leer lassen wenn keine gültige/korrekte zahl*/
+		if(note1.matches(regex) == false) 
+			note1 = "";
+		if(note2.matches(regex) == false) 
+			note2 = "";
+		if(note3.matches(regex) == false) 
+			note3 = "";
 		
 		Fach check = fachRepository.findOneByFachname(name);
-		Float f = Float.valueOf(note);
+		
+		if(note1.isEmpty() == false) {
+			Float fnote1 = Float.parseFloat(note1);		
+			if(( fnote1 > 1.0f && fnote1 < 4.0f) || fnote1 == 5.0f )  {
+				note1 = fnote1.toString();
+			}
+		}
+		
+		if(note2.isEmpty() == false) {
+			Float fnote2 = Float.parseFloat(note2);		
+			if( (fnote2> 1.0f && fnote2 < 4.0f) || fnote2 == 5.0f)   {
+				note2 = fnote2.toString();
+			}
+		}
+		
+		if(note3.isEmpty() == false) {
+		Float fnote3 = Float.parseFloat(note3);
+			if( (fnote3 > 1.0f && fnote3 < 4.0f) || fnote3 == 5.0f)  {
+				note3 = fnote3.toString();
+			}
+		}
 		
 		if(check == null) {
-			Fach fach = new Fach(name, f);
+			Fach fach = new Fach(name);
+			fach.setSemester(semester);
+			fach.setNote1(note1);
+			fach.setNote2(note2);
+			fach.setNote3(note3);
 			fachRepository.save(fach);
 		}
 		
 		if(check != null) {
-			check.addNote(f);
-			fachRepository.save(check);
+		check.setSemester(semester);
+		check.setNote1(note1);
+		check.setNote2(note2);
+		check.setNote3(note3);
+		fachRepository.save(check);
 		}
-		
+				
 		return "redirect:/index.html";
 	}
 	
