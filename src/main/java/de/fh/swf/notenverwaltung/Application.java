@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import de.fh.swf.notenverwaltung.entity.Fach;
+import de.fh.swf.notenverwaltung.entity.Pflichtfach;
 import de.fh.swf.notenverwaltung.repository.FachRepository;
 
 @SpringBootApplication
@@ -23,8 +23,13 @@ import de.fh.swf.notenverwaltung.repository.FachRepository;
 @Controller
 public class Application {
 	
+
+	@Autowired
+	FachRepository repository;
+
 	// Unerwartete exceptions fangen
 	public static void main(String[] args) {
+		
 		try {
 		SpringApplication.run(Application.class, args);
 		}
@@ -37,7 +42,7 @@ public class Application {
 	// Default: Datei static/index.html nach Start der Anwendung zeigen
     @GetMapping("/")
     public String index() {
-    	
+    	    	
         return "index.html";
     }
 	

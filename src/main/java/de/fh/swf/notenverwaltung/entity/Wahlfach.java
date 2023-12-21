@@ -1,19 +1,33 @@
 package de.fh.swf.notenverwaltung.entity;
 
-import java.io.Serializable;
+import jakarta.persistence.Entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-public class Wahlfach extends Fach {
+/*
+ * Muss gewaehlt werden aus einem Pool
+ * Maximal zwei
+ * Gibt keine Creditpoints (= 0)
+ * Darf nicht in die Gewichtung zählen
+ * isWahlfach true zum unterscheiden zu Pflichtfach
+ * */
+@Entity
+public class Wahlfach extends Pflichtfach {
 	
-	public Wahlfach() {
-		super();
-		// super(name, note);
+	private Wahlfach() {}
+	
+	public Wahlfach(String fachname) { 
+		//super(fachname); 
+//		this.semester = "W";
+//		this.creditpoints = "0";
+//		this.isWahlfach = true;
 	}
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	Boolean isGewaehlt = false;
+
+	public Boolean getGewaehlt() {
+		return isGewaehlt;
+	}
+
+	public void setGewaehlt(Boolean gewaehlt) {
+		this.isGewaehlt = gewaehlt;
+	}	
 }

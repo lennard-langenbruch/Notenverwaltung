@@ -2,12 +2,12 @@ package de.fh.swf.notenverwaltung.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import de.fh.swf.notenverwaltung.entity.Fach;
+import de.fh.swf.notenverwaltung.entity.Pflichtfach;
 
-public interface FachRepository extends JpaRepository<Fach, Long> {
+public interface FachRepository extends JpaRepository<Pflichtfach, Long> {
 
-	Fach findOneByFachname(String fachname);
+	Pflichtfach findOneByFachname(String fachname);
 	
 	void deleteById(Long id);
-
+	
 }

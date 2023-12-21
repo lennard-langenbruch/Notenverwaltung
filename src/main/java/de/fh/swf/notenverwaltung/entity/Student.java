@@ -19,12 +19,6 @@ public class Student {
 		if(vorname == null || nachname == null || matrikelnummer == null) {
 			throw new NullPointerException("Student Attribute für nicht null sein");
 		}
-		
-		// Matrikelnummer soll genau 10 Zeichen lang sein
-		if(matrikelnummer.length() != 10) {
-			throw new IllegalArgumentException("Matrikelnummer länge von Student muss exakt 10 sein");
-		}
-		
 		this.vorname = vorname;
 		this.nachname = nachname;
 	}

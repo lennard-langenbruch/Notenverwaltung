@@ -71,8 +71,11 @@
     <div class="container">
         <nav>
             <a href="#">Module</a>
-            <a href="abschlussarbeit.html" >Abschlussarbeit</a>
-            <a a href="kolloqium.html" target="_blank">Kolloqium</a>
+            <a href="abschlussarbeit.html" target="_blank">Abschlussarbeit</a>
+            <a href="kolloqium.html" target="_blank">Kolloqium</a>
+            <a>&nbsp;</a>
+            <input id="search"></input>
+            <button onClick="search(document.getElementById('search').value)">🔍</button>
         </nav>
 
         <hr>
@@ -83,6 +86,7 @@
             <thead>
                 <tr>
                     <th>Semester</th>
+                    <th>Creditpoints</th>
                     <th>Fach</th>
                     <th>Versuch 1</th>
                     <th>Versuch 2</th>
@@ -99,7 +103,7 @@
 
         <br>
 
-        <button><a href="create_fach.html">Fach hinzufügen</a></button>
+        <button><a href="pflichtfach_erstellen.html">Fach hinzufügen</a></button>
     </div>
 
     <script>
@@ -133,18 +137,49 @@
                         const row = document.createElement('tr');
                         row.innerHTML = `
                             <td>${fach.semester}</td>
+                            <td>${fach.creditpoints}</td>
                             <td>${fach.fachname}</td>
                             <td>${fach.note1}</td>
                             <td>${fach.note2}</td>
                             <td>${fach.note3}</td>
                             <td>${fach.bestanden}</td>
-                            <td><button>✏️</button></td>
+                            <td><a href"pflichtfach_erstellen.html"><button>✏️</button></a></td>
                             <td><button onClick="deleteData(${fach.id})">🗑️</button></td>
                         `;
                         dataBody.appendChild(row);
                     });
                 })
                 .catch(error => console.error('Error fetching data:', error));
+        }
+        
+        function search(name) {
+            fetch('http://localhost:8080/fetch/fach/single/' + name, {
+                method: "GET",
+                mode: "cors",
+                headers: {}
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const dataBody = document.getElementById('dataBody');
+                    dataBody.innerHTML = '';
+                    data.forEach(fach => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${fach.semester}</td>
+                            <td>${fach.creditpoints}</td>                          
+                            <td>${fach.fachname}</td>
+                            <td>${fach.note1}</td>
+                            <td>${fach.note2}</td>
+                            <td>${fach.note3}</td>
+                            <td>${fach.bestanden}</td>
+                            <td><a href"pflichtfach_erstellen.html"><button>✏️</button></a></td>
+                            <td><button onClick="deleteData(${fach.id})">🗑️</button></td>
+                        `;
+                        dataBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        
         }
 
         // initial load

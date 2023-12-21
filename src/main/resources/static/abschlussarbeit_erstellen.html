@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fach and Note Form</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        form {
+            border: 1px solid black;
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        div {
+
+            margin-bottom: 8px;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        label {
+            flex: 1;
+            margin-right: 10px;
+            text-align: left; /* Hier wurde text-align: right zu text-align: left geändert */
+        }
+
+        input {
+            flex: 2;
+            padding: 8px;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4caf50;
+            color: #fff;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form action="http://localhost:8080/create/abschlussarbeit" method="get">
+        <h2>Kolloqium</h2>
+        
+        <div>&nbsp;</div>
+
+        <div>
+            <label for="creditpoints">Creditpoints:</label>
+            <input type="text" id="creditpoints" name="creditpoints" required>
+        </div>
+
+        <div>
+            <label for="thema">Thema:</label>
+            <input type="text" id="thema" name="thema" required>
+        </div>
+        
+        <div>
+            <label for="beschreibung">Beschreibung:</label>
+            <input type="text" id="beschreibung" name="beschreibung">
+        </div>
+
+        <div>
+            <label for="note1">Note 1:</label>
+            <input type="text" id="note1" name="note1">
+        </div>
+
+        <div>
+            <label for="note2">Note 2:</label>
+            <input type="text" id="note2" name="note2">
+        </div>
+        
+        <div>&nbsp;</div>
+		<div>Hinweis:</div>
+		<div>Creditpoints müssen angegeben werden. Thema muss angegeben werden.</div>
+
+
+        <button type="submit">Speichern</button>
+    </form>
+
+</body>
+
+</html>

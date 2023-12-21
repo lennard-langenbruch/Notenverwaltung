@@ -15,17 +15,24 @@ import jakarta.persistence.Id;
 
 
 @Entity
-public class Fach {
+public class Pflichtfach {
 	
-	protected Fach() {};
+	protected Pflichtfach() {};
 	
-	public Fach(String fachname) {
+	public Pflichtfach(String fachname, String creditpoints, String semester) {
 				
 		if(fachname == null) {
-			throw new NullPointerException("Fachname & Creditpoints dürfen hier nicht null sein");
+			throw new NullPointerException("Fachname darf hier nicht null sein");
 		}
 		
 		this.fachname = fachname;
+		this.creditpoints = creditpoints;
+		this.semester = semester;
+		
+		if(Integer.valueOf(creditpoints) > 30 || Integer.valueOf(creditpoints) < 0) { 
+			this.creditpoints = ""; 
+		}
+		
 	}
 
 	public Long getId() {
@@ -52,11 +59,11 @@ public class Fach {
 		this.bestanden = bestanden;
 	}
 
-	public Integer getCreditpoints() {
+	public String getCreditpoints() {
 		return creditpoints;
 	}
 
-	public void setCreditpoints(Integer creditpoints) {
+	public void setCreditpoints(String creditpoints) {
 		this.creditpoints = creditpoints;
 	}
 	
@@ -83,8 +90,8 @@ public class Fach {
 	protected Boolean bestanden = false;
 	
 	@Column
-	protected Integer creditpoints = 3;
-	
+	protected String creditpoints;
+		
 	@Column
 	protected String note1 = "";
 	
@@ -93,6 +100,15 @@ public class Fach {
 	
 	@Column
 	protected String note3 = "";
+	
+	@Column
+	protected String endnote = "";
+	
+	@Column
+	protected Integer gewichtung = 1;
+	
+	@Column
+	protected Boolean isWahlfach = false ;
 	
 	public void setNote1(String note1) {
 		this.note1 = note1;
