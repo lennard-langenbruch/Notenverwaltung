@@ -46,13 +46,23 @@ public class Abschlussarbeit {
 	@Column
 	private String note2;
 	
+	@Column
+	private String endnote;
+	
 	@ManyToOne
     @JoinColumn(name = "student_id")  // Adjust column name as needed
 	@JsonIgnore
     private Student student;
 	
-	
-		
+			
+	public String getEndnote() {
+		return endnote;
+	}
+
+	public void setEndnote(String endnote) {
+		this.endnote = endnote;
+	}
+
 	public Student getStudent() {
 		return student;
 	}
@@ -116,7 +126,6 @@ public class Abschlussarbeit {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
 
 }
 

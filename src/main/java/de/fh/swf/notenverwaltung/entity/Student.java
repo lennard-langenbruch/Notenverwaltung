@@ -147,9 +147,6 @@ public class Student {
 	
 	public Long getId() { return id; }
 	
-	
-
-	
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -176,18 +173,13 @@ public class Student {
 
 	    }
 	    
-//	    if(this.kolloqium != null && this.kolloqium.getIsBestanden()) {
-//	    	this.summeCreditpoint = this.summeCreditpoint + this.kolloqium.getCreditpoints();
-//	    }
-//	    
-//	    if(this.abschlussarbeit != null && this.abschlussarbeit.getIsBestanden()) {
-//	    	this.summeCreditpoint = this.summeCreditpoint + this.abschlussarbeit.getCreditpoints();
-//	    }
+	    if(this.kolloqium != null && this.kolloqium.getBestanden()) {
+	    	this.summeCreditpoints = this.summeCreditpoints + Integer.valueOf(this.kolloqium.getCreditpoints());
+	    }
+	    
+	    if(this.abschlussarbeit != null && this.abschlussarbeit.getBestanden()) {
+	    	this.summeCreditpoints = this.summeCreditpoints + Integer.valueOf(this.abschlussarbeit.getCreditpoints());
+	    }
 	};
-	
-
-	
-
-
 	
 }

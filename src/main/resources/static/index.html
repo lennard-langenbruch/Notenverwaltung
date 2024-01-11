@@ -70,17 +70,21 @@
 
     <div class="container">
         <nav>
-            <a href="#">&Uuml;bersicht</a>
+            <a href="#">Module</a>
             <a href="abschlussarbeit.html" target="_blank">Abschlussarbeit</a>
             <a href="kolloqium.html" target="_blank">Kolloqium</a>
             <a>&nbsp;</a>
-            <input id="search"></input>
+            <input placeholder="Einzelnes Pflichtfach suchen" id="search"></input>
             <button onClick="search(document.getElementById('search').value)">🔍</button>
+            <input placeholder="Einzelnes Wahlfach suchen" id="searchWahlfach"></input>
+            <button onClick="searchWahlfach(document.getElementById('searchWahlfach').value)">🔍</button>
+            <button>Nach 'Bestanden' filtern</button>
+            <span>&nbsp; Studium abgeschlossen: <span id="abgeschlossen">noch nicht &nbsp;</span></span>
         </nav>
 
         <hr>
 
-        <h2>Pflichtfächer</h2>
+        <h2>Module erstellen/bearbeiten</h2>
 
         <table>
             <thead>
@@ -116,7 +120,7 @@
     <script>
 
         /*Lösch einträge im Backend und reloaded index.html -> initial fetch -> aktualisiert*/
-        function deleteData(id) {
+        function deleteFach(id) {
             fetch('http://localhost:8080/delete/fach/' + id.toString(), {
                 method: "GET",
                 mode: "cors",
@@ -127,8 +131,19 @@
                 fetchData();
             })
                 .catch(error => console.error('Error deleting data:', error));
+        }
+        
+                function deleteWahlfach(id) {
+            fetch('http://localhost:8080/delete/wahlfach/' + id.toString(), {
+                method: "GET",
+                mode: "cors",
+                headers: {}
+            }).then(data => {
+                console.log(data);
                 
-
+                fetchData();
+            })
+                .catch(error => console.error('Error deleting data:', error));
         }
 
 
@@ -153,8 +168,8 @@
                             <td>${fach.note2}</td>
                             <td>${fach.note3}</td>
                             <td>${fach.bestanden}</td>
-                            <td><a href"pflichtfach_erstellen.html"><button>✏️</button></a></td>
-                            <td><button onClick="deleteData(${fach.id})">🗑️</button></td>
+                            <td><a href="pflichtfach_erstellen.html"><button>✏️</button></a></td>
+                            <td><button onClick="deleteFach(${fach.id})">🗑️</button></td>
                         `;
                         dataBody.appendChild(row);
                     });
@@ -180,8 +195,8 @@
                             <td>${wahlfach.note2}</td>
                             <td>${wahlfach.note3}</td>
                             <td>${wahlfach.bestanden}</td>
-                            <td><a href"wahlfach_erstellen.html"><button>✏️</button></a></td>
-                            <td><button onClick="deleteData(${wahlfach.id})">🗑️</button></td>
+                            <td><a href="wahlfach_erstellen.html"><button>✏️</button></a></td>
+                            <td><button onClick="deleteWahlfach(${wahlfach.id})">🗑️</button></td>
                         `;
                         dataBody2.appendChild(row);
                     });
@@ -235,7 +250,7 @@
                             <td>${fach.note3}</td>
                             <td>${fach.bestanden}</td>
                             <td><a href"pflichtfach_erstellen.html"><button>✏️</button></a></td>
-                            <td><button onClick="deleteData(${fach.id})">🗑️</button></td>
+                            <td><button onClick="deleteFach(${fach.id})">🗑️</button></td>
                         `;
                         dataBody.appendChild(row);
                     });

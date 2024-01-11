@@ -262,26 +262,79 @@ public class GenericController {
 			@RequestParam("note1") String note1,
 			@RequestParam("note2") String note2) {
 		
-		Student s = studentRepository.findOneByNachname("langenbruch");
-		
-		Boolean bestanden = false;
-		Kolloqium check = kolloqiumRepository.findOneByThema(name);
-		
-		if(check == null) {
-			Kolloqium k = new Kolloqium(name);
-			k.setBeschreibung(beschreibung);
-			k.setNote1(note1);
-			k.setNote2(note2);
-			k.setStudent(s);
-			s.setKolloqium(k);
-			kolloqiumRepository.save(k);
+		/*zweistellige fließkommazahl*/
+		String regex1 = "^[1-3]\\.[0-9]";
+		String regex2 = "^[5]\\.[0]";
+		String regex3 = "^[4]\\.[0]";
+
+		if (!note1.matches("(" + regex1 + ")|(" + regex2 + ")|(" + regex3 + ")")) {
+		    note1 = "";
+		}
+
+		if (!note2.matches("(" + regex1 + ")|(" + regex2 + ")|(" + regex3 + ")")) {
+		    note2 = "";
+		}
+
+		Boolean passed = false;
+		String endnote = "";
+		if(note1.isEmpty() || note1.equals("5.0") == false ) { note2 = ""; }
+				
+		if(note1.isEmpty() == false) { // wenn empty dann gar nichts
+			Float fnote1 = Float.parseFloat(note1);
+			if(( fnote1 >= 1.0f && fnote1 <= 4.0f))  {
+				passed = true;
+				endnote = note1;
+			if(fnote1 == 5.0f )
+				note1 = fnote1.toString();
+			}
 		}
 		
-		if(check != null) {
-			check.setBeschreibung(beschreibung);
-			check.setNote1(note1);
-			check.setNote2(note2);
-			kolloqiumRepository.save(check);
+		// also wenn das eintritt dann lässt er den inout so wie war
+		
+		if((note2.isEmpty() == false)) { // wenn nicht empty aber note1 auch nicht empty und note1 aber auch nicht
+			Float fnote2 = Float.parseFloat(note2);		
+			if( (fnote2 >= 1.0f && fnote2 <= 4.0f))   {
+				passed = true;
+				endnote = note2;
+			if(fnote2 == 5.0f)
+				note2 = fnote2.toString();
+			}
+		}
+		
+		//
+		
+		Student s = studentRepository.findOneByNachname("langenbruch");
+		if(s.getKolloqium() == null) {
+			Boolean bestanden = false;
+			Kolloqium check = kolloqiumRepository.findOneByThema(name);
+			
+			if(check == null) {
+				Kolloqium k = new Kolloqium(name);
+				k.setBeschreibung(beschreibung);
+				
+				
+				k.setNote1(note1);
+				k.setNote2(note2);
+				
+				k.setBestanden(passed);
+				if(endnote.isEmpty() == false) {
+					k.setEndnote(endnote);
+				}
+				
+				
+				k.setStudent(s);
+				s.setKolloqium(k);
+				kolloqiumRepository.save(k);
+			}
+			
+			if(check != null) {
+				check.setBeschreibung(beschreibung);
+				
+				check.setNote1(note1);
+				check.setNote2(note2);
+				
+				kolloqiumRepository.save(check);
+			}	
 		}
 		
 		return "redirect:/kolloqium.html";
@@ -294,26 +347,77 @@ public class GenericController {
 			@RequestParam("note1") String note1,
 			@RequestParam("note2") String note2) {
 		
-		Student s = studentRepository.findOneByNachname("langenbruch");
-		
-		Boolean bestanden = false;
-		Abschlussarbeit check = abschlussarbeitRepository.findOneByThema(name);
-		
-		if(check == null) {
-			Abschlussarbeit a = new Abschlussarbeit(name);
-			a.setBeschreibung(beschreibung);
-			a.setNote1(note1);
-			a.setNote2(note2);
-			a.setStudent(s);
-			s.setAbschlussarbeit(a);
-			abschlussarbeitRepository.save(a);
+		/*zweistellige fließkommazahl*/
+		String regex1 = "^[1-3]\\.[0-9]";
+		String regex2 = "^[5]\\.[0]";
+		String regex3 = "^[4]\\.[0]";
+
+		if (!note1.matches("(" + regex1 + ")|(" + regex2 + ")|(" + regex3 + ")")) {
+		    note1 = "";
+		}
+
+		if (!note2.matches("(" + regex1 + ")|(" + regex2 + ")|(" + regex3 + ")")) {
+		    note2 = "";
+		}
+
+		Boolean passed = false;
+		String endnote = "";
+		if(note1.isEmpty() || note1.equals("5.0") == false ) { note2 = ""; }
+				
+		if(note1.isEmpty() == false) { // wenn empty dann gar nichts
+			Float fnote1 = Float.parseFloat(note1);
+			if(( fnote1 >= 1.0f && fnote1 <= 4.0f))  {
+				passed = true;
+				endnote = note1;
+			if(fnote1 == 5.0f )
+				note1 = fnote1.toString();
+			}
 		}
 		
-		if(check != null) {
-			check.setBeschreibung(beschreibung);
-			check.setNote1(note1);
-			check.setNote2(note2);
-			abschlussarbeitRepository.save(check);
+		// also wenn das eintritt dann lässt er den inout so wie war
+		
+		if((note2.isEmpty() == false)) { // wenn nicht empty aber note1 auch nicht empty und note1 aber auch nicht
+			Float fnote2 = Float.parseFloat(note2);		
+			if( (fnote2 >= 1.0f && fnote2 <= 4.0f))   {
+				passed = true;
+				endnote = note2;
+			if(fnote2 == 5.0f)
+				note2 = fnote2.toString();
+			}
+		}
+		
+		//
+		
+		Student s = studentRepository.findOneByNachname("langenbruch");
+		if(s.getAbschlussarbeit() == null) {	
+			Boolean bestanden = false;
+			Abschlussarbeit check = abschlussarbeitRepository.findOneByThema(name);
+			
+			if(check == null) {
+				Abschlussarbeit a = new Abschlussarbeit(name);
+				a.setBeschreibung(beschreibung);
+				
+				a.setNote1(note1);
+				a.setNote2(note2);
+				
+				a.setBestanden(passed);
+				if(endnote.isEmpty() == false) {
+					a.setEndnote(endnote);
+				}
+				
+				a.setStudent(s);
+				s.setAbschlussarbeit(a);
+				abschlussarbeitRepository.save(a);
+			}
+			
+			if(check != null) {
+				check.setBeschreibung(beschreibung);
+				
+				check.setNote1(note1);
+				check.setNote2(note2);
+				
+				abschlussarbeitRepository.save(check);
+			}
 		}
 		
 		return "redirect:/abschlussarbeit.html";
@@ -350,18 +454,26 @@ public class GenericController {
 	@GetMapping("/delete/kolloqium/{id}")
 	public void deleteKolloqium(@PathVariable Long id) {
 		kolloqiumRepository.deleteById(id);
+		Student s = studentRepository.findOneByNachname("langenbruch");
+		s.setKolloqium(null);
+		s.berechnen();
 	    //reload after fetch in script
 	}
 	
 	@GetMapping("/delete/abschlussarbeit/{id}")
 	public void deleteAbschlussarbeit(@PathVariable Long id) {
 		abschlussarbeitRepository.deleteById(id);
+		Student s = studentRepository.findOneByNachname("langenbruch");
+		s.setAbschlussarbeit(null);
+		s.berechnen();
 	    //reload after fetch in script
 	}
 	
 	@GetMapping("/delete/wahlfach/{id}")
 	public void deleteWahlfach(@PathVariable Long id) {
 		wahlfachRepository.deleteById(id);
+		Student s = studentRepository.findOneByNachname("langenbruch");
+		s.berechnen();
 	    //reload after fetch in script
 	}
 	
@@ -400,6 +512,24 @@ public class GenericController {
 		
 		List<Pflichtfach> ret = new ArrayList<>();
 		ret.add(this.fachRepository.findOneByFachname(name));
+		return ret;
+	}
+	
+	@GetMapping("/fetch/wahlfach/single/{name}")
+	@ResponseBody
+	public List<Wahlfach> fetchSingleWahlfach(@PathVariable String name){
+		
+		List<Wahlfach> ret = new ArrayList<>();
+		ret.add(this.wahlfachRepository.findOneByFachname(name));
+		return ret;
+	}
+	
+	@GetMapping("/bestanden")
+	@ResponseBody
+	public List<Wahlfach> bestanden(@PathVariable String name){
+		
+		List<Wahlfach> ret = new ArrayList<>();
+		ret.add(this.wahlfachRepository.findOneByFachname(name));
 		return ret;
 	}
 	
