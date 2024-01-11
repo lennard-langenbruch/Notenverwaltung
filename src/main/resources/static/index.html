@@ -7,9 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>F&auml;cher</title>
     <style>
-    	html,body,.container { height: 100%; }
-    
-    
+        html, body, .container {
+            height: 100%;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f5f5f5;
@@ -62,7 +63,6 @@
         th {
             background-color: #f2f2f2;
         }
-
     </style>
 </head>
 
@@ -70,7 +70,7 @@
 
     <div class="container">
         <nav>
-            <a href="#">Module</a>
+            <a href="#">&Uuml;bersicht</a>
             <a href="abschlussarbeit.html" target="_blank">Abschlussarbeit</a>
             <a href="kolloqium.html" target="_blank">Kolloqium</a>
             <a>&nbsp;</a>
@@ -80,7 +80,7 @@
 
         <hr>
 
-        <h2>Liste deiner F&auml;cher</h2>
+        <h2>Pflichtfächer</h2>
 
         <table>
             <thead>
@@ -103,24 +103,34 @@
 
         <br>
 
-        <button><a href="pflichtfach_erstellen.html">Fach hinzufügen</a></button>
+        <div>Notendurchschnitt: <span id="notendurchschnitt"></span></div>
+        <div>Creditpoints: <span id="creditpoints"></span></div>
+
+        <br>
+
+        <button><a href="pflichtfach_erstellen.html">Pflichtfach hinzufügen</a></button>
+        <button><a href="wahlfach_erstellen.html">Wahlfach hinzufügen</a></button>
+
     </div>
 
     <script>
 
         /*Lösch einträge im Backend und reloaded index.html -> initial fetch -> aktualisiert*/
         function deleteData(id) {
-            fetch('http://localhost:8080/delete/fach/'+ id, {
+            fetch('http://localhost:8080/delete/fach/' + id.toString(), {
                 method: "GET",
                 mode: "cors",
                 headers: {}
             }).then(data => {
-            console.log(data);
-            location.reload();
-        })
-        .catch(error => console.error('Error deleting data:', error));
+                console.log(data);
+                
+                fetchData();
+            })
+                .catch(error => console.error('Error deleting data:', error));
+                
+
         }
-    
+
 
         /*Zeigt JSON daten in HTML tabelle*/
         function fetchData() {
@@ -150,8 +160,60 @@
                     });
                 })
                 .catch(error => console.error('Error fetching data:', error));
+
+            fetch('http://localhost:8080/fetch/wahlfach', {
+                method: "GET",
+                mode: "cors",
+                headers: {}
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const dataBody2 = document.getElementById('dataBody');
+
+                    data.forEach(wahlfach => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${wahlfach.semester}</td>
+                            <td>${wahlfach.creditpoints}</td>
+                            <td>${wahlfach.fachname}</td>
+                            <td>${wahlfach.note1}</td>
+                            <td>${wahlfach.note2}</td>
+                            <td>${wahlfach.note3}</td>
+                            <td>${wahlfach.bestanden}</td>
+                            <td><a href"wahlfach_erstellen.html"><button>✏️</button></a></td>
+                            <td><button onClick="deleteData(${wahlfach.id})">🗑️</button></td>
+                        `;
+                        dataBody2.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+                
+            fetch('http://localhost:8080/notendurchschnitt', {
+                method: "GET",
+                mode: "cors",
+                headers: {}
+            })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('notendurchschnitt').innerText = data;
+                })
+                .catch(error => console.error('Error fetching notendurchschnitt:', error));
+     
+            fetch('http://localhost:8080/creditpoints', {
+                method: "GET",
+                mode: "cors",
+                headers: {}
+            })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('creditpoints').innerText = data;
+                })
+                .catch(error => console.error('Error fetching creditpoints:', error));
+                
+           
         }
         
+
         function search(name) {
             fetch('http://localhost:8080/fetch/fach/single/' + name, {
                 method: "GET",
@@ -184,6 +246,7 @@
 
         // initial load
         fetchData();
+    
     </script>
 
 </body>

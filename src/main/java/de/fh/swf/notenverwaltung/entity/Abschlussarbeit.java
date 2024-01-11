@@ -2,20 +2,26 @@ package de.fh.swf.notenverwaltung.entity;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Abschlussarbeit {
 	
 	private Abschlussarbeit() {}
 	
-	public Abschlussarbeit(String thema, String creditpoints) {
+	public Abschlussarbeit(String thema) {
 		this.thema = thema;
-		this.creditpoints = creditpoints;
+		this.creditpoints = "30";
 	}
 
 	@Id
@@ -27,7 +33,34 @@ public class Abschlussarbeit {
 	
 	@Column
 	private String beschreibung;
+
+	@Column
+	private Boolean bestanden = false;
 	
+	@Column
+	private String creditpoints;
+	
+	@Column
+	private String note1;
+	
+	@Column
+	private String note2;
+	
+	@ManyToOne
+    @JoinColumn(name = "student_id")  // Adjust column name as needed
+	@JsonIgnore
+    private Student student;
+	
+	
+		
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
 	public String getBeschreibung() {
 		return beschreibung;
 	}
@@ -35,9 +68,6 @@ public class Abschlussarbeit {
 	public void setBeschreibung(String beschreibung) {
 		this.beschreibung = beschreibung;
 	}
-
-	@Column
-	private String note1;
 	
 	public String getThema() {
 		return thema;
@@ -79,13 +109,14 @@ public class Abschlussarbeit {
 		this.creditpoints = creditpoints;
 	}
 
-	@Column
-	private String note2;
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
-	@Column
-	private Boolean bestanden = false;
-	
-	@Column
-	private String creditpoints;	
+
 }
 

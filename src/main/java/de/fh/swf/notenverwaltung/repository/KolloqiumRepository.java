@@ -6,4 +6,10 @@ import de.fh.swf.notenverwaltung.entity.Kolloqium;
 
 public interface KolloqiumRepository extends JpaRepository<Kolloqium, Long>{
 
+
+
+	Kolloqium findOneByThema(String name);
+
+
+
 }

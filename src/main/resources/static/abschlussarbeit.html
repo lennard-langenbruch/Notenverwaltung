@@ -71,18 +71,17 @@
     <div class="container">
         <nav>
             <a href="index.html">Module</a>
-            <a href="abschlussarbeit.html" target="_blank">Abschlussarbeit</a>
-            <a href="#l" target="_blank">Kolloqium</a>
+            <a href="#">Abschlussarbeit</a>
+            <a href="kolloqium.html" target="_blank">Kolloqium</a>
         </nav>
 
         <hr>
 
-        <h2>Kolloqium</h2>
+        <h2>Abschlussarbeit</h2>
 
         <table>
             <thead>
                 <tr>
-                    <th>Creditpoints</th>
                     <th>Thema</th>
                     <th>Beschreibung</th>
                     <th>Versuch 1</th>
@@ -133,7 +132,6 @@
                         const row = document.createElement('tr');
                         row.innerHTML = `
                             <td>${abschlussarbeit.thema}</td>
-                            <td>${abschlussarbeit.creditpoints}</td>
                             <td>${abschlussarbeit.beschreibung}</td>
                             <td>${abschlussarbeit.note1}</td>
                             <td>${abschlussarbeit.note2}</td>

@@ -2,20 +2,27 @@ package de.fh.swf.notenverwaltung.entity;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Kolloqium {
 	
 	private Kolloqium() {}
 	
-	public Kolloqium(String thema, String creditpoints) {
-		this.thema = thema;
-		this.creditpoints = creditpoints;
+	public Kolloqium(String thema) {
+		this.thema = thema; 
+		this.creditpoints = "30";
+		this.bestanden = false;
 	}
 
 	@Id
@@ -23,20 +30,16 @@ public class Kolloqium {
 	private Long id;
 	
 	@Column
-	private String creditpoints;
-	
-	@Column
 	private String thema;
 	
 	@Column
 	private String beschreibung;
-	
-	public String getBeschreibung() {
-		return beschreibung;
-	}
 
 	@Column
-	private Boolean bestanden = false;
+	private Boolean bestanden;
+	
+	@Column
+	private String creditpoints;
 	
 	@Column
 	private String note1;
@@ -44,7 +47,25 @@ public class Kolloqium {
 	@Column
 	private String note2;
 	
+	@ManyToOne
+    @JoinColumn(name = "student_id")  // Adjust column name as needed
+	@JsonIgnore
+    private Student student;
+	
+	
+	
+	public Student getStudent() {
+		return student;
+	}
 
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	// Getter, Setter:
+	public String getBeschreibung() {
+		return beschreibung;
+	}
 
 	public String getThema() {
 		return thema;
@@ -90,6 +111,16 @@ public class Kolloqium {
 		this.beschreibung = beschreibung;
 		
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	
 
 
 }

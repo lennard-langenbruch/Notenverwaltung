@@ -1,26 +1,23 @@
 package de.fh.swf.notenverwaltung.entity;
 
-import java.io.Serializable;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import de.fh.swf.notenverwaltung.repository.FachRepository;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 
 
 @Entity
 public class Pflichtfach {
 	
-	protected Pflichtfach() {};
+	private Pflichtfach() {};
 	
 	public Pflichtfach(String fachname, String creditpoints, String semester) {
-				
+		
 		if(fachname == null) {
 			throw new NullPointerException("Fachname darf hier nicht null sein");
 		}
@@ -34,13 +31,68 @@ public class Pflichtfach {
 		}
 		
 	}
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-	public Long getId() {
-		return id;
+	@Column
+	protected String fachname;
+	
+	@Column
+	protected String semester;
+	
+	@Column
+	protected Boolean bestanden = false;
+	
+	@Column
+	protected String creditpoints;
+	
+	@Column
+	protected Boolean creditpointsGranted = false;
+		
+	@Column
+	protected String note1 = "";
+	
+	@Column
+	protected String note2 = "";
+	
+	@Column
+	protected String note3 = "";
+	
+	@Column
+	protected String endnote = "";
+	
+	// Getter, Setter & Relations
+	
+	@ManyToOne
+    @JoinColumn(name = "student_pflicht")
+	@JsonIgnore
+    private Student student_pflicht;
+	
+	
+
+	public Boolean getCreditpointsGranted() {
+		return creditpointsGranted;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setCreditpointsGranted(Boolean creditpointsGranted) {
+		this.creditpointsGranted = creditpointsGranted;
+	}
+
+	public String getEndnote() {
+		return endnote;
+	}
+
+	public void setEndnote(String endnote) {
+		this.endnote = endnote;
+	}
+
+	public Student getStudent_pflicht() {
+		return student_pflicht;
+	}
+
+	public void setStudent_pflicht(Student student_pflicht) {
+		this.student_pflicht = student_pflicht;
 	}
 
 	public String getFachname() {
@@ -75,41 +127,6 @@ public class Pflichtfach {
 		this.semester = semester;
 	}
 
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-
-	@Column
-	protected String fachname;
-	
-	@Column
-	protected String semester;
-	
-	@Column
-	protected Boolean bestanden = false;
-	
-	@Column
-	protected String creditpoints;
-		
-	@Column
-	protected String note1 = "";
-	
-	@Column
-	protected String note2 = "";
-	
-	@Column
-	protected String note3 = "";
-	
-	@Column
-	protected String endnote = "";
-	
-	@Column
-	protected Integer gewichtung = 1;
-	
-	@Column
-	protected Boolean isWahlfach = false ;
-	
 	public void setNote1(String note1) {
 		this.note1 = note1;
 	}
@@ -134,5 +151,15 @@ public class Pflichtfach {
 	public String getNote3() {
 		return note3;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	
 
 }
